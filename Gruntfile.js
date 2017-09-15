@@ -1,11 +1,24 @@
-// const grunt = require('grunt');
+const grunt = require('grunt');
 
 module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: ['public/client/**/*.js'],
+        dest: 'public/dist/bundle.js',
+      }
     },
+
+    clean: ['public/dist/bundle.js'],
+
+    launch: {
+      command: 'git push heroku master'
+    }
 
     mochaTest: {
       test: {
@@ -23,6 +36,13 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+      },
+      build: {
+        src: 'public/dist/bundle.js',
+        dest: 'public/dist/bundle.min.js'
+      }
     },
 
     eslint: {
@@ -60,6 +80,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mocha-test');
@@ -79,6 +100,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'clean', 'concat', 'uglify'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -90,7 +112,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
+    'launch'
   ]);
 
 
