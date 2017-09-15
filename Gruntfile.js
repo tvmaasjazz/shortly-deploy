@@ -1,3 +1,5 @@
+// const grunt = require('grunt');
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
