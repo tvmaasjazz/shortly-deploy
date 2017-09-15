@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "postinstall": "grunt build"
+    "postinstall": "grunt build",
     "test": "grunt test",
     "lint": "eslint ./"
   },
